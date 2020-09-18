@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 해당 xml파일을 root-context.xml에 포함시킨다. -->
+	<import resource="classpath:datasource/dbcpdatasource.xml" />
+	
+	<!--
+		mybatis와 spring을 연동하기 위한 SqlSessionFactoryBean을 bean으로 등록한다.
+		dataSource - dbcp관련 설정이 된 dataSource
+		mapperLocations - 매퍼 xml파일들의 위치
+		typeAliasesPackage - 매퍼 xml 파일 안에서 완전한 클래스 이름이 아닌 클래스 이름(ex Member)만으로 타입을 지정할 수 있다.
+	-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:repository/mappers/**/*Mapper.xml" />
+		<property name="typeAliasesPackage" value="com.project.mbti.vo" />
+	</bean>
+	
+	<!-- mybatis와 spring을 연동해 줄 SqlSessionTemplete을 등록. 별도로 commit(), rollback()메서드를 호출하지 않아도 된다. -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"
+		c:sqlSessionFactory-ref="sqlSessionFactory" />
+		
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
+		p:dataSource-ref="dataSource" />
+		
+	<!-- 파일 업로드에 필요한 클래스 등록 -->
+	<bean id="multipartResolver" class=
+		"org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+		
+</beans>

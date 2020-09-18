@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mbti.mappers.CenterMapper" >
+
+	<resultMap id="centerResultMap" type="Center">
+		<id property="cId" column="c_id"/>
+		<result property="cName" column="c_name"/>
+		<result property="cAddr" column="c_addr"/>
+		<result property="cPhone" column="c_phone"/>
+		<result property="cLocal" column="c_local"/>
+	</resultMap>
+	<select id="centerList" resultType="Center" parameterType="hashmap">
+		SELECT 
+			cId, 
+			cLocal, 
+			cName, 
+			cPhone 
+			
+		FROM center
+		<where>	
+			<if test="type == 'cName'">
+				cName LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="type == 'cLocal'">
+				cLocal LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+
+		</where>
+		ORDER BY no DESC
+		LIMIT #{startRow}, #{num}
+	</select>
+
+</mapper>	
+
+
+

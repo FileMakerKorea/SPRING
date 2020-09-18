@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mbti.mappers.BloodMapper" >
+
+	<resultMap id="bloodResultMap" type="Blood">
+		<id property="bId" column="b_id"/>
+		<result property="mId" column="m_id"/>
+		<result property="cId" column="c_id"/>
+		<result property="hId" column="h_id"/>
+		<result property="buId" column="bu_id"/>
+		<result property="bType" column="b_type"/>
+		<result property="rhType" column="rh_type"/>
+		<result property="bIndex" column="b_index"/>
+		<result property="bVolume" column="b_volume"/>
+		<result property="bUsed" column="b_used"/>
+		<result property="bDate" column="b_date"/>
+		<result property="bRegDate" column="b_regdate"/>
+	</resultMap>
+	 
+	<select id = "getBlood" resultType = "Blood" resultMap = "bloodResultMap">
+		SELECT *
+		FROM blood
+		WHERE b_Id = #{bId}
+	</select>
+	
+	
+		<!-- 박태원 -->
+		
+	<select id = "getBloodCount" resultType = "int" >
+	
+		SELECT COUNT(*)	
+		FROM blood b
+		WHERE 	
+				c_id = #{c_id}
+			AND	( SELECT m_gender FROM member m  WHERE m.m_id = b.m_id )  = #{m_gender}
+			AND	rh_Type = #{rh_Type}
+			AND	b_Type = #{b_Type}
+			AND	b_used = #{b_used}
+			AND h_id = #{h_id}
+	</select>
+	
+	<select id = "getBloodTotalCount" resultType = "int" >
+		SELECT COUNT(*)
+		FROM blood
+		WHERE 
+				h_id = #{h_id}
+			AND	c_id = #{c_id}
+	</select>
+	
+	<select id = "getBloodTotalCount_No" resultType = "int" >
+		SELECT COUNT(*)
+		FROM blood
+		WHERE 
+				h_id = #{h_id}
+			AND	c_id = #{c_id}
+			AND b_used = "N"
+	</select>
+	
+	<select id = "getCenterBloodList" resultType = "HospitalCount" >
+		SELECT 
+		 c_id centerId,
+		 ( SELECT c_name FROM center c  WHERE c.c_id = b.c_id ) centerName
+		FROM blood b
+		WHERE 
+				b.h_id = #{h_Id}
+		LIMIT #{startRow}, #{num}
+	</select>
+	
+	<select id = "getCenterListCount" resultType = "int" >
+		SELECT COUNT(*)
+		FROM blood
+		WHERE 
+				h_id = #{h_id}
+	</select>
+	
+	
+	
+	
+		<!-- 박태원 end -->
+	
+	
+	<insert id = "addBlood" parameterType="Blood">
+		INSERT INTO blood
+		VALUES (
+			#{bId},
+			#{mId},
+			#{cId},
+			#{hId},
+			#{buId},
+			#{bType},
+			#{rhType},
+			#{bIndex},
+			#{bVolume},
+			#{bUsed},
+			#{bDate},
+			#{bRegDate}
+		)
+	</insert>
+	
+	<update id = "updateBlood" parameterType = "Blood">
+		UPDATE blood
+			SET 
+				c_id = #{cId},
+				h_id = #{hId},
+				bu_id = #{buId},
+				b_used = #{bUsed},
+				b_date = #{bDate}
+		WHERE b_id=#{bId}
+	</update>
+
+	<select id="membersBloodList" parameterType="hashmap" resultType="Blood" resultMap="bloodResultMap">
+		SELECT *
+		FROM blood
+		WHERE m_id = #{mId}
+		ORDER BY b_date DESC		
+		<if test="startRow != null and count != null">
+			LIMIT #{startRow}, #{count}
+		</if>
+	</select>
+	
+	<select id="membersBloodCount" resultType="int">
+		SELECT COUNT(*)
+		FROM blood
+		WHERE m_id = #{mId}
+		ORDER BY b_date DESC
+	</select>
+	
+
+	<select id="stepwiseBloodDetail" parameterType="Blood" resultType="BloodDetail">
+		SELECT 
+			  b_id bId
+			, b_index bIndex
+			, b_volume bVolume
+			, c_name cName
+			, date_format(b_date, '%Y-%m-%d') bDate
+			<if test="hId != null">
+				, h_name hName
+				, date_format(b_regdate, '%Y-%m-%d') bRegDate
+			</if>
+			<if test="buId != null">
+				, date_format(bu_date, '%Y-%m-%d') buDate
+				, bu_name buName
+			</if>
+		FROM
+				blood b
+			, center c
+			<if test="hId != null">
+				, hospital h
+			</if>
+			<if test="buId != null">
+				, bloodused bu 
+			</if>
+		<where>
+				  b_id = #{bId}
+			AND	b.c_id = c.c_id
+			<if test="hId != null">
+				AND b.h_id = h.h_id					
+			</if>
+			<if test="buId != null">
+				AND b.bu_id = bu.bu_id					
+			</if>				
+		</where>
+	</select>
+	
+	<!--
+		mId와 target을 key로 하는 맵을 받음
+		멤버의 target 종류에 따른 수를 반환함
+	-->
+	<select id="membersBloodStatus" parameterType="hashmap" resultType="hashMap">
+		SELECT
+		<choose>
+			<when test="target == 'cId'">
+				c_id cId, COUNT(*) count
+			</when>
+			<when test="target == 'hId'">
+				h_id hId, COUNT(*) count
+			</when>
+			<when test="target == 'bIndex'">
+				b_index bIndex, COUNT(*) count
+			</when>
+			<when test="target == 'bVolume'">
+				SUM(b_volume) sum
+			</when>
+		</choose>
+		FROM blood
+		WHERE m_id = #{mId}
+		<choose>
+			<when test="target == 'cId'">
+			GROUP BY
+				c_id
+			</when>
+			<when test="target == 'hId'">
+			GROUP BY
+				h_id
+			</when>
+			<when test="target == 'bIndex'">
+			GROUP BY
+				b_index
+			</when>
+		</choose>
+		<if test="target != 'bVolume'">
+			ORDER BY count DESC
+		</if>
+	</select>
+
+	<!-- 센터의 병원 별 Blood 개수 -->
+	<select id="centersBloodCountByHosp" resultType="hashmap">
+		SELECT b.h_id hId, h_name hName, COUNT(b.h_id) count
+		FROM blood b, hospital h
+		WHERE c_id = #{cId} AND b.h_id = h.h_id
+		GROUP BY b.h_id
+		ORDER BY hName	
+	</select>
+	
+	<!--
+		centerMain에서 사용
+		센터-병원의 Blood 정보 -->
+	<select id="centersBloodByHosp" parameterType="hashmap" resultType="hashmap">
+	  SELECT
+	 		b_id bId,
+	 		m_id mId,
+	 		b_type bType,
+	 		rh_type rhType,
+	 		b_index bIndex,
+	 		b_volume bVolume,
+	 		b_used bUsed,
+	 		date_format(b_regdate, '%y/%m/%d') bRegDate
+		FROM
+			blood
+		WHERE
+			c_id = #{cId} AND
+			h_id = #{hId}
+		ORDER BY
+			bRegDate DESC
+	</select>
+	
+	<!-- 센터가 보유한 헌혈증 (병원으로 아직 안 감) -->
+	<select id="centersUnUsedBloodId" resultType="String">
+		SELECT b_id bId
+		FROM blood
+		WHERE c_id = #{cId} AND b_used = 'N' AND h_id IS NULL;
+	</select>
+	
+	<update id="deliverToHosp" parameterType="hashmap">
+		UPDATE blood
+		SET h_id = #{hId}, b_regdate = #{bRegDate}
+		WHERE b_id = #{bId}
+	</update>
+</mapper>	
+
+
+

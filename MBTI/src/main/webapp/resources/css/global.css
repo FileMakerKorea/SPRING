@@ -1,0 +1,1054 @@
+@charset "UTF-8";
+
+
+/* 전체 레이아웃 */
+body {
+	font-size: 12px;
+	margin: 0;
+}
+.clear{clear: both;}
+div, input, select, table, tbody, tfoot, td, th {box-sizing: border-box;}
+table {border-collapse: collapse;}
+ul {list-style: none;}
+a {text-decoration: none; color: black;}
+#wrapper {
+	display: grid;
+	grid-template-areas: "header header header"											 
+											 "topNav topNav topNav"
+											 ". . ."
+											 "leftNav mainWrap rightNav"
+											 ". . ."
+											 "footer footer footer";
+	grid-template-rows: 50px 30px 40px minmax(800px, 80%) 20px 120px;
+	grid-template-columns: 1fr minmax(600px, 100%) 1fr;	
+}
+/*  */
+div#idCheck{
+	display: inline-block;
+}
+
+/* header */
+#header {
+	grid-area: header;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.headerLogo {
+	margin-left: 20px;
+	width: 150px;
+	height: 40px;
+
+}
+.headerTitle {
+	font-size: 3em;
+	margin-right: 90px;
+}
+.headerLinkWrap {
+	display: flex;
+	margin-right: 50px;
+}
+.marker {
+	/* 각 링크 구분 이미지 */
+}
+.headerLink {margin: 0 5px;}
+.headerLink > a:hover {
+	cursor: pointer;
+	color: tomato;
+}
+/*  */
+
+
+/* topNav */
+#topNav {
+	grid-area: topNav;
+	height: 30px;
+	background-color: aliceblue;
+}
+.topNavUl {
+	display: flex;
+	width: 600px;
+	margin: 0 auto;
+}
+.topNavLi {
+	text-align: center;
+	margin: 0 10px;
+}
+.topNavTitle {
+	padding: 0 20px;
+	font-size: 1.2em;
+	height: 30px;
+	line-height: 30px;
+	background-color: aliceblue;
+}
+.topNavItems {
+	display: none;
+	position: relative;
+	background-color: aliceblue;
+	z-index: 999;
+}
+.topNavTitle:hover {
+	cursor: pointer;
+	color: tomato;
+}
+.topNavTitle:hover ~ .topNavItems {display: block;}
+.topNavItems:hover {display: block;}
+.topNavItem:hover a{color: tomato;}
+/*  */
+
+
+/* body */
+#mainWrap {grid-area: mainWrap;}
+/*  */
+
+
+/* footer */
+#footer {grid-area: footer;}
+.footerLogo{
+	width: 150px;
+	height: 50px;
+}
+.footerNavBg {background-color: aliceblue;}
+.footerNav {
+	display: flex;
+	width: 300px;
+	height: 20px;
+	margin: 0 auto;
+	justify-content: space-between;
+}
+.footerLink {
+	width: 100%;
+	line-height: 20px;
+	text-align: center;
+	font-size: 1.1em;
+}
+.footerLink:hover {cursor: pointer;}
+.footerLink:hover a {color: tomato;}
+.footerInfo {
+	display: flex;
+	height: 100px;
+	align-items: center;
+}
+/*  */
+
+
+/* 메인 페이지 */
+
+.mainWrap{
+	border: 1px solid white;
+	width: 1500px;
+	/* height: 100vh; */
+	height: 100%;
+	margin: 0 auto;
+	background-color: #F0F8FF;
+}
+
+.mainInfo {
+	display: flex;
+	margin: 250px auto;
+	width: 1180px;	
+	height: 265px;
+}
+.mainLeft {
+	width: 830px;
+	align-self: flex-start;
+}
+.mainLeft > p {font-size: 2em;}
+.mainRight {
+	width: 350px;
+	align-self: flex-end;
+}
+.mainBtn {
+	display: block;
+	width: 300px;
+	height: 50px;
+	margin-left: 50px;
+	background-image: url("/mbti/resources/images/mainBtn.png");	
+}
+/*  */
+
+
+/* 메인화면 로그인 선택 버튼 모달창 */
+.loginTypeWrap {
+	display: none;
+ 	position: fixed;
+  z-index: 998;
+	left: 0;
+	top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  justify-content: center;
+  align-items: center;
+}
+.loginType {
+	position: relative;
+	z-index: 999;
+	width: 400px;
+	height: 200px;
+	background-color: #f3f3f3;
+	border-radius: 15px;
+  font-size: 1.4em;
+	text-align: center;
+	
+	transition: height 0.1s ease-in-out;
+}
+.loginTypeSpan {
+	display: inline-block;
+	padding-top: 35px;
+	font-weight: bold;
+}
+.loginTypeClose {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	left: 368px;
+	width: 32px;
+	height: 32px;
+	background-color: black;
+	border-radius: 0 15px 0 0;
+}
+.loginNormalType {
+	position: absolute;
+	left: 90px;
+	top: 100px;
+}
+.loginOrgType {
+	position: absolute;
+	left: 210px;
+	top: 100px;
+}
+.loginOrgType:hover, .loginNormalType:hover {cursor: pointer;}
+.loginTypeClose:hover {cursor: pointer;}
+
+/*  */
+
+
+/* 일반 회원 가입 페이지, 정보수정 페이지 */
+.joinTitle {
+	font-size: 2em;
+	padding-left: 25%;
+}
+.joinTitleLine, .memberForm .line {
+	width: 630px;
+	margin: 0 auto;
+	border-top: 5px solid gray;
+}
+.memberForm {
+	width: 700px;
+	margin: 0 auto;
+}
+.joinField {
+	display: flex;
+	padding: 30px;	
+}
+.joinInfo {
+	position: relative;
+	width: 180px;
+	text-align: right;
+	font-size: 2em;
+	color: red;
+	padding: 10px 50px 0 0;
+}
+.optionalInfo {
+	position: absolute;
+	top: 16px;
+	left: 135px;
+}
+.tmp{position: relative; overflow: hidden;}
+.optionalInfo:hover {cursor: pointer;}
+.optionalInfo:hover ~ .optionalInfoText {opacity: 1;}
+.optionalInfoText {
+	position: absolute;
+	width: 220px;
+	padding: 10px;
+	top: 45px;
+	left: -50px;
+	background-color: skyblue;
+	text-align: left;
+	font-size: 13px;
+	color: white;
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+}
+/*.memberForm .line {
+	width: 90%;
+	margin: 0 auto;
+	border-top: 5px solid gray;
+}*/
+.formLi {margin: 5px 0;}
+
+.memberFormInput {
+	width: 200px;
+	height: 30px;
+	padding: 10px;
+	border: 1px solid #E0E3DA;
+}
+.memberFormInput:hover, .memberForm .email:hover {cursor: pointer;}
+.memberFormInput:focus, .memberForm .email:focus {
+	outline: none;
+	background-color: aqua;
+}
+.memberForm .email {
+	width: 150px;
+	height: 30px;
+	padding: 10px;
+	border: 1px solid #E0E3DA;
+}
+.memberForm .domain, .memberForm .bType {
+	width: 100px;
+	height: 30px;
+	padding: 5px;
+	border: 1px solid #E0E3DA;
+	appearance: none;
+	background-image: url("/mbti/resources/images/select_arrow.png");
+}
+.memberForm .zipcode {
+	width: 100px;
+	height: 30px;
+	padding: 10px;
+	border: 1px solid #E0E3DA;
+}
+.memberForm .address1, .memberForm .address2 {
+	width: 450px;
+	height: 30px;
+	padding: 10px;
+	border: 1px solid #E0E3DA;
+}
+.joinBtn {
+	margin: 5px 0;
+	text-align: center;
+}
+.memberFormBtn {
+	width: 100px;
+	height: 30px;
+	border: 1px solid #E0E3DA;
+	color: #ffffff;
+}
+.memberFormBtn:hover {
+	cursor: pointer;
+	opacity: 0.85;
+} 
+.memberJoinSubmit, .memberUpdateSubmit {background-color: tomato;}
+.memberJoinReset, .memberUpdateReset {background-color: skyblue;}
+.memberForm .memberOverlapBtn {
+	margin-left: 30px;
+	color: black;
+}
+.memberForm .zipcodeBtn {
+	margin-left: 30px;
+	color: black;
+}
+.memberUpdateWrap {
+	width: 550px;
+	margin-left: 100px;
+	padding: 50px;
+	background-color: lightgray;
+}
+.updateBtn {
+	margin-left: 125px;
+	padding-top: 30px;
+}
+/*  */
+
+
+/* 로그인 페이지 */
+.loginForm {
+	width: 600px;
+	height: 300px;
+	margin: 50px auto 0;
+	padding: 25px;
+	background-color: #f3f3f3;
+	text-align: center;
+}
+.loginForm > .line {
+	display: inline-block;
+	width: 450px;
+	border-top: 5px solid black;
+	margin: 10px 0;
+}
+.loginFormInput > input {
+	width: 400px;
+	padding: 15px;
+	margin: 10px;
+	border: 1px solid #E0E3DA;
+	font-size: 1.5em;
+}
+.loginFormInput > input:hover {cursor: pointer;}
+.loginId, .loginPass {margin: 10px 0;}
+.loginId:focus, .loginPass:focus {
+	outline: none;
+	background-color: #d3e0f7;
+}
+.loginSubmit {
+	background-color: tomato;
+	color: white;
+}
+.loginSubmit:focus {outline: none};
+.formInfo {width: 400px;}
+.formInfoSpan {
+	display: inline-block;
+	width: 400px;
+	margin: 5px 0;
+	text-align: left;
+}
+.formInfoSpan > a {
+	color: blue;
+	font-weight: bold;
+}
+/*  */
+
+
+/* 신청현황 - 나의 헌혈 정보 */
+
+
+
+
+
+.myWrap{
+	border: 1px solid white;
+	width: 1500px;
+/* 	height: 100vh; */
+	height: 100%;
+	margin: 0 auto;
+	background-color: #F0F8FF;
+}
+.statusImg{
+	position: absolute;
+	left: 1230px;
+	top: 130px;
+}
+.myStatusWrap {
+	width: 700px;
+	margin: 80px auto;
+}
+.noBloodcard {
+	width: 620px;
+	padding-left: 40px;
+	font-size: 2em;
+	font-weight: bold;
+}
+.noBloodcard a {color: tomato;}
+.bloodcardList {
+	width: 620px;
+	padding-left: 40px;
+}
+.bloodcardList .line {
+	width: 100%;
+	border-top: 3px dashed black;
+	margin: 10px 0;
+}
+.bloodcardTitle, .bloodcard {
+	display: flex;
+	font-size: 1.5em;
+}
+.cardTitle{
+	font-weight: bold;
+}
+.cardTitle, .cardBody {
+	flex-basis: 33.3%;
+	text-align: center;
+}
+.bloodcard:hover, .cardContent:hover {cursor: pointer;}
+.bloodcard:hover + .cardContent, .cardContent:hover {
+	height: 245px;
+	background-color: #ffffff;
+	box-shadow: 2px 2px 10px #FFb7b7;
+}
+.cardContent {
+	background-color: #F0F8FF;
+	margin: 10px 0;
+	height: 0;
+	transition: all 1s cubic-bezier(.23, 1, .32, 1);
+	overflow: hidden;
+	box-shadow: 0 0 0 #F0F8FF;
+}
+.cardItem {
+	padding: 5px;
+}
+.itemTh {
+	width: 150px;
+	margin-left: 30px;
+	padding: 5px 5px 3px 0;
+	font-size: 1.25em;
+}
+.itemTd {
+	width: 200px;
+	font-size: 1.25em;
+	font-weight: bold;
+}
+/*  */
+
+
+/* 마이페이지 네비게이션 */
+#normalLeftNav {
+	grid-area: leftNav;
+	width: 250px;
+	margin: 0 100px;
+	border-right: 2px solid gray;
+}
+.normalLeftLi {
+	text-align: right;
+	padding: 5px 10px 5px 0;
+	font-size: 16px;
+}
+.normalLeftLi > a:hover {
+	color: tomato;
+	cursor: pointer;
+}
+.leftLiOn > a {
+	color: tomato;
+	text-shadow: 1px 1px 1px tomato;
+}
+/*  */
+
+
+/* 마이페이지 - 기본정보 */
+.mypageWrap {
+	font-size: 18px;
+	width: 700px;
+	height: 400px;
+	background-color: lightgoldenrodyellow;
+}
+.memberInfo {
+	display: flex;
+	background-color: white;
+	align-items: center;
+}
+.mypageLi {
+	width: 650px;
+	margin: 5px auto;
+	padding: 20px 0 0 30px;
+}
+.memberName {height: 20px}
+.memberBType {height: 50px;}
+.mBloodStatus {
+	
+}
+.memberBloodT {width: inherit;}
+.memberBloodT tbody {
+	display: block;
+	width: 650px;
+	margin: 50px auto 10px;
+}
+.memberBloodT td {border-bottom: 2px solid black;}
+.memberBloodTitle {
+	text-align: center;
+	padding: 10px;
+}
+.memberNoBloodTh {
+	text-align: center;
+	font-size: 1.2em;
+	padding: 10px;
+	width: 500px;
+}
+.memberNoBloodTd {
+	width: 150px;
+	padding: 10px;
+}
+.memberNoBloodTd > a {
+	color: tomato;
+	font-size: 1.2em;
+}
+.memberBloodTh {
+	width: 300px;
+	text-align: right;
+	padding: 10px 20px 10px 10px;
+}
+.memberBloodTd {
+	width: 400px;
+	padding: 10px 10px 10px 20px;
+}
+/*  */
+
+
+/* 마이페이지 - 헌혈 정보 입력 */
+.cAddWrap {
+	width: 600px;
+	padding: 40px;
+	margin-left: 30px;
+	background-color: lightgray;
+}
+.cAddInfo {margin: 20px 0;}
+#cAddForm {margin-left: 40px;}
+#cAddForm .cAddInput {
+	width: 300px;
+	margin: 5px 0;
+	padding: 10px;
+	border: 1px solid #E0E3DA;
+}
+#cAddForm .cAddInput:hover {cursor: pointer;}
+#cAddForm .cAddInput:focus {
+	outline: none;
+	background-color: #d3e0f7;
+}
+.centerFindBtn {
+	width: 100px;
+	margin-left: 5px;
+	padding: 7px;
+	font-size: 1.25em;
+	color: #ffffff;
+	border: none;
+	background-color: skyblue;
+}
+.cAddSubmit {
+	width: 300px;
+	margin-top: 5px;
+	padding: 7px;
+	font-size: 1.25em;
+	color: #ffffff;
+	border: none;
+	background-color: tomato;
+}
+.centerFindBtn:focus, .cAddSubmit:focus {outline: none;}
+.centerFindBtn:hover, .cAddSubmit:hover {
+	cursor: pointer;
+	opacity: 0.8;
+}
+/* */
+
+
+/* 헌혈증 상세 페이지 */
+.cardDetailWrap {
+	width: 700px;
+	padding: 25px;
+	background-color: lightgoldenrodyellow;
+}
+.toMypage {
+	
+}
+.cardDetailTitle {
+	font-size: 2em;
+	text-align: center;
+	font-weight: bold;
+}
+.cardT {
+	width: inherit;
+	font-size: 15px;
+	
+}
+.cardT .space {wid}
+.cardTh {
+	width: 200px;
+	text-align: right;
+	padding: 5px 30px 5px 5px;
+}
+.cardTd {
+	width: 150px;
+	padding: 5px;
+}
+.cardDetailImg {
+	
+}
+/*  */
+
+
+/* 센터 메인페이지 */
+.centerWrap {
+	border: 1px solid white;
+	width: 1500px;
+	/* height: 100vh; */
+	height: 100%;
+	margin: 0 auto;
+	background-color: #8b8687;	
+}
+.centerDeliveryBtn {
+	position: absolute;
+	left: 450px;
+	top: 130px;
+	width: 110px;
+	padding: 5px;
+	font-size: 1.3em;
+	font-weight: bold;
+	background-color: #f4f4f4;
+	text-align: center;
+ 	transition: all 0.1s ease-in-out;
+}
+.centerDeliveryBtn:hover {
+	cursor: pointer;
+	background-color: #171a26;
+	color: white;
+
+}
+.centerMain {
+	width: 1180px;
+	margin: 50px auto;
+}
+
+.cSummary > .line, .cDetail > .line {
+	border-bottom: 2px solid black;
+	width: 98%;
+	margin: 0 auto;
+	padding: 2px 0;
+}
+.cSummaryT .line, .cDetailT .line {border-bottom: 2px solid black;}
+.cSummary {
+	float: left;
+	width: 400px;
+	height: 550px;
+	background-color: #fefefe;
+	font-size: 16px;
+	margin-right: 5px;
+}
+.cSummaryWrap {height: 485px;}
+.cSummaryT .tdSpace, .cDetailT .tdSpace {width: 10px;}
+.cSummaryTr:hover{
+	background-color: #171a26;
+	opacity: 0.7;
+	color: #ffffff;
+	cursor: pointer;
+}
+.cSummaryTr {
+	background-color: #fefefe;
+	opacity: 1;
+	transition: all 0.1s ease-in-out;
+}
+.cSummaryT td {
+	padding: 3px 0;
+	text-align: center;
+	line-height: 22px;
+}
+.cSummaryhName {
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	word-wrap:normal;
+	overflow:hidden;
+}
+.cS1, .cS4, .cS5 {width: 45px;}
+.cS2 {width: 110px;}
+.cS3 {width: 135px;}
+.cSummaryFoot {padding: 4px 0;}
+.cSInt {
+	display: inline-block;
+	width: 340px;
+	text-align: right;
+	padding-right: 20px;
+}
+.cSSpan {
+	display: inline-block;
+	width: 40px;
+	text-align: left;
+}
+
+.cDetail {
+	float: right;
+	width: 770px;
+	height: 550px;
+	background-color: #fefefe;
+	font-size: 16px;
+}
+.cDetailWrap {height: 510px;}
+.cDetailHead {padding: 10px 0 10px 0;}
+.toHosp {
+	float: left;
+	padding-left: 20px;
+	height: 24px;
+	line-height: 18px;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+.toHospSpan {
+	float: right;
+	padding-right: 20px;
+	height: 20px;
+	line-height: 10px;
+}
+.cDetailT td {
+	padding: 3px 0;
+	text-align: center;
+	line-height: 22px;
+}
+.cD1, .cD5, .cD6 {width: 45px;}
+.cD2 {width: 155px;}
+.cD3 {width: 120px;}
+.cD4 {width: 80px;} 
+.cD7 {width: 120px;}
+.cD8 {width: 65px;}
+.cD9 {width: 75px;}
+
+/* 헌혈증 배달 정보 모달 */
+.deliveryModalWrap {
+	display: none;
+	position: fixed;
+	z-index: 998;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	justify-content: center;
+	align-items: center;
+}
+.deliveryModal {
+	position: relative;
+	z-index: 999;
+  width: 600px;
+  height: 400px;
+	background-color: #fefefe;
+  font-size: 1.4em;
+	text-align: center;	
+}
+.cDeliveryLi {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	height: 40px;
+	margin-top: 30px;
+}
+.cDeliveryDate {
+	width: 200px;
+	height: 28px;
+	padding: 10px;
+	margin-right: 15px;
+	text-align: center;
+}
+.cDeliveryHosp {
+	width: 200px;
+	margin-left: 15px;
+}
+.deliverySumbit {
+	width: 100px;
+	margin-left: 15px;
+	height: 28px;
+	font-size: 16px;
+}
+.cDeliveryBlood {width: 540px;}
+.deliveryModalClose {
+	position: absolute;
+	background-image: url("/mbti/resources/images/close3232circle.png");
+	background-color: #fefefe;
+	border-radius: 16px;
+	width: 32px;
+	height: 32px;
+	top: -12px;
+	left: 580px;
+}
+/* */
+
+
+/* 병원 메인페이지 */
+.hospWrap{
+	border: 1px solid white;
+	width: 1500px;
+/* 	height: 100vh; */
+	height: 100%;
+	margin: 0 auto;
+	background-color: #F0F8FF;
+}
+.hSummaryWrap {
+	width: inherit;
+	height: 610px;
+}
+.hSummaryT {
+	width: 1200px;
+	margin: 50px auto;
+}
+.hSummaryTh {
+	background-color: #FAE0D4;
+	font-weight: bold;
+}
+.hSummaryT td {
+	/* 개별 길이 지정하기 */
+	width: 53.6px;
+	padding: 4px 0;
+	line-height: 22px;
+	text-align: center;
+}
+.hospMain > .line {
+	width: 98%;
+	border-top: 2px solid black;
+	margin: 0 auto;
+}
+.hSummaryfoot {
+	width: 1180px;
+	height: 40px;
+}
+
+.hospListWrap{
+	border: 1px solid white;
+	width: 1500px;
+/* 	height: 100vh; */
+	height: 100%;
+	margin: 0 auto;
+	background-color: #F0F8FF;
+}
+/* 자유게시판 리스트 */
+
+
+.boardWrap{
+	border: 1px solid white;
+	width: 1500px;
+/* 	height: 100vh; */
+	height: 100%;
+	margin: 0 auto;
+	background-color: #F0F8FF;
+}
+
+
+
+
+
+
+
+
+
+
+.boardListTable {
+	width: 1000px;
+	margin: 60px auto;
+	background-color: #FAE0D4;
+	font-size: 14px;
+}
+
+.boardTitle {
+	background-color: #F0F8FF;
+	text-align: center;
+	font-size: 20px;
+}
+
+#searchForm{
+	text-align: center;
+	padding: 7px;
+}
+
+.listWrite{
+	text-align: right;
+	padding: 20px 20px 20px 45px;
+	font-weight: bold;
+}
+
+.boardListLink{
+	padding-left: 20px;
+	font-weight: bold;
+}
+
+#searchComment{
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.boardListTable th {
+	font-size: 15px;
+	border-top: 1.5px solid black;
+	border-bottom: 1.5px solid black;
+	padding: 10px 0;
+}
+
+.listTr {
+	text-align: center;
+	font-size: 16px;
+}
+
+.listTr td:not(.listTdTitle) {
+	padding: 10px 0;
+}
+
+.listTdTitle{
+	width: 480px;
+	text-align: left;
+	padding-left: 80px;
+}
+
+.listTdTitle a:hover{
+	opacity: 0.8;
+}
+
+.listTdWriter{
+	width: 180px;
+}
+
+.listPage{
+	text-align: center;
+	padding: 10px 0;
+	background-color: #F0F8FF;
+	font-weight: bold;
+}
+
+/* 자유 게시판 상세보기 */
+
+.contentTable{
+	width: 1000px;
+	margin: 60px auto;
+	background-color: #FAE0D4;
+}
+
+.contentTh {
+	border: 1px solid black;
+	border-left: none;
+	text-align: center;
+	font-weight: bold;
+	font-size: 14px;
+}
+.contentTd {
+	border: 1px solid black;
+	padding-left: 40px;
+	font-size: 14px;
+	border-right: none;
+}
+
+#contentRegDate {
+	border-left: 1px solid black;
+}
+
+#contentReadCount{
+	border-left: 1px solid black;
+}
+
+#contentNo{
+	border-left: 1px solid black;
+}
+
+.readContent {
+	padding: 30px;
+	font-size: 16px;
+}
+
+.tdSpan{
+	text-align: center;
+	background-color: #F0F8FF;
+	padding: 40px;
+}
+
+/* 자유게시판 쓰기 폼  */
+
+.readTable{
+	width: 1000px;
+	margin: 60px auto;
+	background-color: #FAE0D4;
+	font-size: 14px;
+}
+
+.readTh {
+	font-weight: bold;
+	text-align: center;
+	padding: 10px 0;
+}
+
+/* MBTI 소개 창 */
+
+.introWrap{
+	border: 1px solid white;
+	width: 1500px;
+/* 	height: 100vh; */
+	height: 100%;
+	margin: 0 auto;
+	background-color: #F0F8FF;
+}
+
+.introInfo{
+	width: 1200px;
+	margin: 250px auto;
+	display: flex;
+}
+.introLeft{
+	align-self: flex-start;
+}
+.introRight > p {font-size: 2em; font-weight: bold;}
+.introRight {
+	width: 400px;
+	align-self: flex-end;
+	text-align: right;
+}

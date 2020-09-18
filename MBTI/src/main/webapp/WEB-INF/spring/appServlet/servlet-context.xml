@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/mvc
+		https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- Spring MVC에서 필요한 Annotation 기반의 모든 기능을 사용할 수 있는 설정 -->
+	<annotation-driven />
+
+	<!-- 정적인 문서가 저장되는 경로 설정 -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- controller가 요청을 받아 반환하는 view의 이름을 jsp파일과 연결시켜 줄 viewResolver 등록 -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/index.jsp?body=views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- 해당 패키지 아래에 있는 @Component(@Controller, @Service, ...)들을 DI컨테이너에 bean으로 등록시켜준다. -->
+	<context:component-scan base-package="com.project.mbti" />		
+	
+	<view-controller path="/" view-name="redirect:main"/>	
+	<view-controller path="/main" view-name="main"/>
+	<view-controller path="/board/writeForm" view-name="writeForm" />
+	
+	<!-- 인터셉터 bean 등록 -->
+	<beans:bean id="pageTypeInterceptor" class="com.project.mbti.interceptor.PageTypeInterceptor" />
+	<beans:bean id="memberLoginCheckInterceptor" class="com.project.mbti.interceptor.MemberLoginCheckInterceptor"/>
+	<beans:bean id="centerLoginCheckInterceptor" class="com.project.mbti.interceptor.CenterLoginCheckInterceptor"/>
+	<beans:bean id="hospitalLoginCheckInterceptor" class="com.project.mbti.interceptor.HospitalLoginCheckInterceptor"/>
+	
+	
+	<!-- 인터셉터 등록 mapping path는 contextPath 아래의 경로 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/normal/normalMypage"/>
+			<mapping path="/normal/certificateAdd"/>
+			<mapping path="/normal/memberUpdate"/>		
+			<beans:ref bean="pageTypeInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/normal/*"/>			
+			<mapping path="/board/writeForm"/>			
+			<mapping path="/board/boardDetail*"/>			
+			<exclude-mapping path="/normal/login*"/>
+			<exclude-mapping path="/normal/join*"/>
+			<exclude-mapping path="/normal/overlapIdCheck"/>
+			<beans:ref bean="memberLoginCheckInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/org/centerMain"/>
+			<exclude-mapping path="/org/login*"/>
+			<beans:ref bean="centerLoginCheckInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/org/hospMain"/>
+			<exclude-mapping path="/org/login*"/>
+			<beans:ref bean="hospitalLoginCheckInterceptor"/>
+		</interceptor>
+		
+	</interceptors>
+	
+</beans:beans>

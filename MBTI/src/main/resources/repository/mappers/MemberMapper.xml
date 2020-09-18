@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mbti.mappers.MemberMapper" >
+
+	<resultMap id="memberResultMap" type="Member">
+		<id property="mId" column="m_id"/>
+		<result property="mPassword" column="m_password"/>
+		<result property="mName" column="m_name"/>
+		<result property="mGender" column="m_gender"/>
+		<result property="mBirth" column="m_birth"/>
+		<result property="mBType" column="m_btype"/>
+		<result property="mRhType" column="m_Rhtype"/>
+		<result property="mEmail" column="m_email"/>
+		<result property="mHeight" column="m_height"/>
+		<result property="mWeight" column="m_weight"/>
+		<result property="mAddr" column="m_addr"/>
+		<result property="mCell" column="m_cell"/>
+		<result property="mNotes" column="m_notes"/>
+		<result property="mRegDate" column="reg_date"/>
+	</resultMap>
+
+	<select id = "getMemberId" resultType = "String">
+		SELECT m_id
+		FROM member
+		WHERE m_id = #{mId}
+	</select>
+	
+	<select id = "getMemberPass" resultType = "String">
+		SELECT m_password
+		FROM member
+		WHERE m_id = #{mId}
+	</select>
+
+	<select id = "getMember" resultType = "Member" resultMap = "memberResultMap">
+		SELECT *
+		FROM member
+		WHERE m_id = #{mId}
+	</select>
+	
+	<select id = "overlapIdCheck" resultType = "int" parameterType="String">
+		SELECT count(m_id)
+		FROM member
+		WHERE m_id = #{mId}
+	</select>
+	
+	<insert id="addMember" parameterType = "Member">
+		INSERT INTO member
+		VALUES(
+			#{mId},
+			#{mPassword},
+			#{mName},
+			#{mGender},
+			#{mBirth},
+			#{mBType},
+			#{mRhType},
+			#{mEmail},
+			#{mHeight},
+			#{mWeight},
+			#{mAddr},
+			#{mCell},
+			#{mNotes},
+			SYSDATE()
+		)
+	</insert>
+
+	<update id = "updateMember" parameterType = "Member">
+		UPDATE member
+		SET
+			m_password = #{mPassword},
+			m_birth = #{mBirth},
+			m_email=#{mEmail},
+			m_height = #{mHeight},
+			m_weight = #{mWeight},
+			m_addr = #{mAddr},
+			m_cell = #{mCell},
+			reg_date = #{mRegDate}
+		WHERE m_id = #{mId}
+	</update>
+		
+	<delete id = "deleteMember" parameterType = "Member">
+		DELETE FROM member WHERE m_id = #{mId} AND m_password = #{mPassword}
+	</delete>
+	
+</mapper>	
+
+
+

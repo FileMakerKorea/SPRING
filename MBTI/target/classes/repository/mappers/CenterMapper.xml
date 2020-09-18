@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mbti.mappers.CenterMapper" >
+
+	<resultMap id="centerResultMap" type="Center">
+		<id property="cId" column="c_id"/>
+		<result property="cName" column="c_name"/>
+		<result property="cAddr" column="c_addr"/>
+		<result property="cPhone" column="c_phone"/>
+		<result property="cLocal" column="c_local"/>
+	</resultMap>
+
+		<select id="centerList" resultType="Center" parameterType="hashmap" resultMap="centerResultMap">
+		SELECT 
+			c_id, 
+			c_name, 
+			c_addr, 
+			c_phone, 
+			c_local
+		FROM center
+		<where>	
+			<if test="type == 'cName'">
+				c_name LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="type == 'cLocal'">
+				c_local LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="type == 'cAddr'">
+				c_addr LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+		</where>
+		ORDER BY c_local
+		LIMIT #{startRow}, #{num}
+	</select>
+	
+	<select id="getCenterCount" parameterType="hashmap" resultType="int">
+		SELECT 
+			COUNT(c_id) 
+		FROM center
+		<where>	
+			<if test="type == 'cName'">
+				c_name LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="type == 'cLocal'">
+				c_local LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="type == 'cAddr'">
+				c_addr LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+		</where>	
+	</select>
+	
+	<select id = "getCenterCode" resultType = "String">
+		SELECT c_id FROM center WHERE c_name = #{cName}
+	</select>
+	
+	<select id = "getCenter" resultType = "Center" resultMap = "centerResultMap">
+		SELECT * FROM center WHERE c_id = #{cId}
+	</select>
+	
+	<select id = "getCenterName" resultType = "string">
+		SELECT c_name FROM center WHERE c_id = #{cId}
+	</select>
+	
+	<select id = "centerCodeCheck" resultType = "String">
+		SELECT c_id FROM center WHERE c_id = #{orgCode}
+	</select>
+		
+</mapper>	
+
+
+

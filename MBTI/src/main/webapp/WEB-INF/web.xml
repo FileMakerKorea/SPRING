@@ -8,7 +8,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
-	<display-name> MBTI최종 발표본 </display-name>
+	<display-name> MBTI최종 발표본... </display-name>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
